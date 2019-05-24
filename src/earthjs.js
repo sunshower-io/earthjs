@@ -101,6 +101,7 @@ const earthjs = (options = {}) => {
         $slc: {},
         ready(fn) {
             if (fn) {
+                const options = globe._.options;
                 globe._.readyFn = fn;
                 globe._.promeses = _.promeses;
                 if (_.promeses.length > 0) {
@@ -118,7 +119,7 @@ const earthjs = (options = {}) => {
                                     ext = 'json';
                                 }
                             }
-                            q.defer(formats[ext] || d3[ext], url);
+                            q.defer(options.formats[ext] || d3[ext], url);
                         });
                     });
                     q.await(function() {
