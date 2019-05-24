@@ -2124,7 +2124,7 @@ var inertiaPlugin = (function () {
             draggMove = true;
             pmouse = cmouse;
             cmouse = mouseMovement.call(this);
-            if (cmouse) {
+            if (cmouse && pmouse) {
                 // sometime sourceEvent=null
                 rotateZ = _.proj.rotate();
                 rotateX = rotateZ[0];
@@ -2169,11 +2169,12 @@ var inertiaPlugin = (function () {
         var __ = this._;
         var s0 = __.proj.scale();
         function zoomAndDrag() {
-            var event = d3.event,
-                _ref2 = event && event.sourceEvent,
-                type = _ref2.type,
-                touches = _ref2.touches;
 
+            var event = d3.event,
+                sevent = event && event.sourceEvent,
+                type = sevent && sevent.type,
+                touches = sevent && sevent.touches;
+            // {type, touches} = event && event.sourceEvent;
             if (type && (type === 'wheel' || touches && touches.length === 2)) {
                 var r1 = s0 * d3.event.transform.k;
                 if (r1 >= zoomScale[0] && r1 <= zoomScale[1]) {
