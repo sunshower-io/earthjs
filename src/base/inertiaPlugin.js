@@ -124,7 +124,7 @@ export default ({zoomScale}={zoomScale:[0,50000]}) => {
             draggMove = true;
             pmouse = cmouse;
             cmouse = mouseMovement.call(this);
-            if (cmouse) { // sometime sourceEvent=null
+            if (cmouse && pmouse) { // sometime sourceEvent=null
                 rotateZ = _.proj.rotate();
                 rotateX = rotateZ[0];
                 rotateY = rotateZ[1];
@@ -170,7 +170,10 @@ export default ({zoomScale}={zoomScale:[0,50000]}) => {
         function zoomAndDrag() {
 
             let event = d3.event,
-                {type, touches} = event && event.sourceEvent;
+                sevent = event && event.sourceEvent,
+                type = sevent && sevent.type,
+                touches = sevent && sevent.touches;
+                // {type, touches} = event && event.sourceEvent;
             if (type && (type==='wheel' || (touches && touches.length===2))) {
                 const r1 = s0 * d3.event.transform.k;
                 if (r1>=zoomScale[0] && r1<=zoomScale[1]) {
